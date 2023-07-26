@@ -35,7 +35,7 @@ class btAudio {
 	// I2S Audio
 	void I2S(int bck, int dout, int ws);
 	void volume(float vol);
-	bool playing(long int timer_ms = 1000);
+	bool playing(long int timer_ms = 500);
     
 	// Filtering
 	void createFilter(int n, float hp,int type);
