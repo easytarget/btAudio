@@ -97,6 +97,7 @@ void btAudio::reconnect() {
 
 void btAudio::disconnect() {
   esp_a2d_sink_disconnect(_address);
+  connected = false;
 }
 
 void btAudio::a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t*param){
