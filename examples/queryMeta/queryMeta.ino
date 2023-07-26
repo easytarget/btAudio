@@ -23,7 +23,13 @@ void setup() {
 
 void loop() {
   delay(5000);
-  // updates metadata
+  // show connection status
+  Serial.print("Connection: ");
+  Serial.println(audio.connection);
+  // show playback status
+  Serial.print("Playback:");
+  Serial.println(audio.playback());
+  // update and show metadata
   audio.updateMeta();
   Serial.print("Title: ");
   Serial.println(audio.title);
