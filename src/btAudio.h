@@ -30,12 +30,12 @@ class btAudio {
 	void disconnect();
 	void reconnect();
 	void setSinkCallback(void (*sinkCallback)(const uint8_t *data, uint32_t len));
-	static bool connected;
+	static bool connection;
 	
 	// I2S Audio
 	void I2S(int bck, int dout, int ws);
 	void volume(float vol);
-	bool playing(long int timer_ms = 500);
+	bool playback(long int timer_ms = 500);
     
 	// Filtering
 	void createFilter(int n, float hp,int type);

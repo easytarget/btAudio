@@ -8,7 +8,7 @@
  int32_t btAudio::_sampleRate=44100;
  long int btAudio::_lastplay=0;
   
- bool btAudio::connected=false;
+ bool btAudio::connection=false;
  String btAudio::title="";
  String btAudio::album="";
  String btAudio::genre="";
@@ -97,7 +97,7 @@ void btAudio::reconnect() {
 
 void btAudio::disconnect() {
   esp_a2d_sink_disconnect(_address);
-  connected = false;
+  connection = false;
 }
 
 void btAudio::a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t*param){
@@ -108,7 +108,7 @@ void btAudio::a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t*param){
         uint8_t* temp= a2d->conn_stat.remote_bda;
         if (a2d->conn_stat.state == ESP_A2D_CONNECTION_STATE_CONNECTED)
         {
-            connected = true;
+            connection = true;
             _address[0]= *temp;     _address[1]= *(temp+1);
 		    _address[2]= *(temp+2); _address[3]= *(temp+3);
 		    _address[4]= *(temp+4); _address[5]= *(temp+5);
@@ -125,7 +125,7 @@ void btAudio::a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t*param){
             preferences.end();
             break;
         } else {
-            connected = false;
+            connection = false;
         }
     }
 	case ESP_A2D_AUDIO_CFG_EVT: {
@@ -328,7 +328,7 @@ void btAudio::i2sCallback(const uint8_t *data, uint32_t len){
 void btAudio::volume(float vol){
 	_vol = constrain(vol,0,1);	
 }
-bool btAudio::playing(long int timer_ms){
+bool btAudio::playback(long int timer_ms){
     if ((millis() - _lastplay) <= timer_ms) return true;
     else return false;
 }
