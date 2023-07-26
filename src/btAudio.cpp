@@ -6,7 +6,9 @@
  float btAudio::_vol=0.95;
  esp_bd_addr_t btAudio::_address;
  int32_t btAudio::_sampleRate=44100;
+ long int btAudio::_lastplay=0;
   
+ bool btAudio::connected=false;
  String btAudio::title="";
  String btAudio::album="";
  String btAudio::genre="";
@@ -105,6 +107,7 @@ void btAudio::a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t*param){
         uint8_t* temp= a2d->conn_stat.remote_bda;
         if (a2d->conn_stat.state == ESP_A2D_CONNECTION_STATE_CONNECTED)
         {
+            connected = true;
             _address[0]= *temp;     _address[1]= *(temp+1);
 		    _address[2]= *(temp+2); _address[3]= *(temp+3);
 		    _address[4]= *(temp+4); _address[5]= *(temp+5);
@@ -120,6 +123,8 @@ void btAudio::a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t*param){
             if (preferences.getUChar("btaddr5", 0) != _address[5]) { preferences.putUChar("btaddr5", _address[5]); ESP_LOGI("btAudio", "Writing BTaddr5"); }
             preferences.end();
             break;
+        } else {
+            connected = false;
         }
     }
 	case ESP_A2D_AUDIO_CFG_EVT: {
@@ -246,6 +251,9 @@ void btAudio::i2sCallback(const uint8_t *data, uint32_t len){
   
   int jump =4; //how many bytes at a time get sent to buffer
   int  n = len/jump; // number of byte chunks	
+  if (len > 0) {
+    _lastplay = millis();  // record when we recieved the last data packet.
+    }
 	switch (_postprocess) {
    case NOTHING:
         for(int i=0;i<n;i++){
@@ -319,6 +327,11 @@ void btAudio::i2sCallback(const uint8_t *data, uint32_t len){
 void btAudio::volume(float vol){
 	_vol = constrain(vol,0,1);	
 }
+bool btAudio::playing(long int timer_ms){
+    if ((millis() - _lastplay) <= timer_ms) return true;
+    else return false;
+}
+
 
 ////////////////////////////////////////////////////////////////////
 ////////////////// Filtering Functionality /////////////////////////

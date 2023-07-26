@@ -30,10 +30,12 @@ class btAudio {
 	void disconnect();
 	void reconnect();
 	void setSinkCallback(void (*sinkCallback)(const uint8_t *data, uint32_t len));
+	static bool connected;
 	
 	// I2S Audio
 	void I2S(int bck, int dout, int ws);
 	void volume(float vol);
+	bool playing(long int timer_ms = 1000);
     
 	// Filtering
 	void createFilter(int n, float hp,int type);
@@ -64,6 +66,7 @@ class btAudio {
 	bool _compressing=false;
     static int32_t  _sampleRate;
 	static int _postprocess;
+	static long int _lastplay;
 	
 	// static function causes a static infection of variables
 	static void i2sCallback(const uint8_t *data, uint32_t len);
