@@ -328,7 +328,7 @@ void btAudio::i2sCallback(const uint8_t *data, uint32_t len){
 void btAudio::volume(float vol){
 	_vol = constrain(vol,0,1);	
 }
-bool btAudio::playback(long int timer_ms){
+bool btAudio::playing(long int timer_ms){
     if ((millis() - _lastplay) <= timer_ms) return true;
     else return false;
 }

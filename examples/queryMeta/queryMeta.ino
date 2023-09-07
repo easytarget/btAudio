@@ -27,8 +27,8 @@ void loop() {
   Serial.print("Connection: ");
   Serial.println(audio.connection);
   // show playback status
-  Serial.print("Playback:");
-  Serial.println(audio.playback());
+  Serial.print("Playing:");
+  Serial.println(audio.playing());
   // update and show metadata
   audio.updateMeta();
   Serial.print("Title: ");
