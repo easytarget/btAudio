@@ -128,12 +128,13 @@ void btAudio::a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t*param){
 
 		    // Store connected BT address for use by reconnect()
 		    preferences.begin("btAudio", false);
-            if (preferences.getUChar("btaddr0", 0) != _address[0]) { preferences.putUChar("btaddr0", _address[0]); ESP_LOGI("btAudio", "Writing BTaddr0"); }
-            if (preferences.getUChar("btaddr1", 0) != _address[1]) { preferences.putUChar("btaddr1", _address[1]); ESP_LOGI("btAudio", "Writing BTaddr1"); }
-            if (preferences.getUChar("btaddr2", 0) != _address[2]) { preferences.putUChar("btaddr2", _address[2]); ESP_LOGI("btAudio", "Writing BTaddr2"); }
-            if (preferences.getUChar("btaddr3", 0) != _address[3]) { preferences.putUChar("btaddr3", _address[3]); ESP_LOGI("btAudio", "Writing BTaddr3"); }
-            if (preferences.getUChar("btaddr4", 0) != _address[4]) { preferences.putUChar("btaddr4", _address[4]); ESP_LOGI("btAudio", "Writing BTaddr4"); }
-            if (preferences.getUChar("btaddr5", 0) != _address[5]) { preferences.putUChar("btaddr5", _address[5]); ESP_LOGI("btAudio", "Writing BTaddr5"); }
+            if (preferences.getUChar("btaddr0", 0) != _address[0]) { preferences.putUChar("btaddr0", _address[0]); }
+            if (preferences.getUChar("btaddr1", 0) != _address[1]) { preferences.putUChar("btaddr1", _address[1]); }
+            if (preferences.getUChar("btaddr2", 0) != _address[2]) { preferences.putUChar("btaddr2", _address[2]); }
+            if (preferences.getUChar("btaddr3", 0) != _address[3]) { preferences.putUChar("btaddr3", _address[3]); }
+            if (preferences.getUChar("btaddr4", 0) != _address[4]) { preferences.putUChar("btaddr4", _address[4]); }
+            if (preferences.getUChar("btaddr5", 0) != _address[5]) { preferences.putUChar("btaddr5", _address[5]); }
+            ESP_LOGI("btAudio", "Saved address to preferences");
             preferences.end();
             break;
         } else {
