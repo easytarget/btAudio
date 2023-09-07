@@ -29,6 +29,7 @@ class btAudio {
 	void end();
 	void disconnect();
 	void reconnect();
+	void forget();
 	void setSinkCallback(void (*sinkCallback)(const uint8_t *data, uint32_t len));
 	static bool connection;
 	

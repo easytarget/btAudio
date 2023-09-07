@@ -86,7 +86,7 @@ void btAudio::reconnect() {
       _address[2] + _address[3] +
       _address[4] + _address[5] != 0)
   {
-    ESP_LOGI("btAudio", "Connecting to remembered BT device: %d %d %d %d %d %d", 
+    ESP_LOGI("btAudio", "Connecting to remembered BT device: %x %x %x %x %x %x", 
             _address[0], _address[1],
             _address[2], _address[3],
             _address[4], _address[5]);
@@ -98,6 +98,18 @@ void btAudio::reconnect() {
 void btAudio::disconnect() {
   esp_a2d_sink_disconnect(_address);
   connection = false;
+}
+
+void btAudio::forget() {
+		    preferences.begin("btAudio", false);
+            preferences.putUChar("btaddr0", 0);
+            preferences.putUChar("btaddr1", 0);
+            preferences.putUChar("btaddr2", 0);
+            preferences.putUChar("btaddr3", 0);
+            preferences.putUChar("btaddr4", 0);
+            preferences.putUChar("btaddr5", 0);
+            ESP_LOGI("btAudio", "btaddr reset");
+            preferences.end();
 }
 
 void btAudio::a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t*param){
@@ -112,7 +124,7 @@ void btAudio::a2d_cb(esp_a2d_cb_event_t event, esp_a2d_cb_param_t*param){
             _address[0]= *temp;     _address[1]= *(temp+1);
 		    _address[2]= *(temp+2); _address[3]= *(temp+3);
 		    _address[4]= *(temp+4); _address[5]= *(temp+5);
-            ESP_LOGI("btAudio", "Connected to BT device: %d %d %d %d %d %d", _address[0], _address[1], _address[2], _address[3], _address[4], _address[5]);
+            ESP_LOGI("btAudio", "Connected to BT device: %x %x %x %x %x %x", _address[0], _address[1], _address[2], _address[3], _address[4], _address[5]);
 
 		    // Store connected BT address for use by reconnect()
 		    preferences.begin("btAudio", false);
